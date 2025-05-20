@@ -1,0 +1,3 @@
+Coffee,2.50
+Hot Chocolate,2.0
+Sandwich,4.50
