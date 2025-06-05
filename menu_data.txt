@@ -3,3 +3,5 @@ Hot Chocolate,2.0
 Sandwich,4.50
 Hamburger,6.0
 Hot dog,4.0
+Water,1.50
+

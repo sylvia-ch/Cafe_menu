@@ -16,9 +16,17 @@ MENU_FILE = "menu_data.txt"
 # GUI
 class Cafeapp:
     def __init__(self):
+        win_width = 600
+        win_height = 400
         self.win = tk.Tk()
-        self.win.title("Cafe Click and Collect App")
-        self.win.geometry("500x400")
+        self.win.title("Cafe Click and Collect")
+
+ # Center the window
+        screen_width = self.win.winfo_screenwidth()
+        screen_height = self.win.winfo_screenheight()
+        x = (screen_width - win_width) // 2
+        y = (screen_height - win_height) // 2
+        self.win.geometry("%dx%d+%d+%d"%(win_width,win_height,x,y))
 
         # Data 
         self.users = self.load_users()
@@ -36,17 +44,16 @@ class Cafeapp:
     def welcome_ui(self):
         self.clear()
         tk.Label(self.win, text="Welcome to Cafe Click and Collect",
-                font=("Arial", 14)).pack(pady=30)
+                font=("Arial", 30)).pack(pady=30)
         bottns = tk.Frame(self.win)
         bottns.pack()
-        tk.Button(bottns,text = "Login",width =12,
+        tk.Button(bottns,text = "Login",width =20, font=("Arial", 15),
                 command = self.login_ui).pack(side = "left", padx = 10)
-        tk.Button(bottns,text = "Register",width =12,
+        tk.Button(bottns,text = "Register",width =20, font=("Arial", 15),
                 command = self.register_ui).pack(side = "left", padx = 10)   
-        tk.Button(self.win,text = "Exit",
+        tk.Button(self.win,text = "Exit",width = 15, font=("Arial", 15),
                 command = self.win.quit).pack(pady = 25)
-
-
+        
 # Load user data
     def load_users(self):
         users = {}
@@ -69,7 +76,7 @@ class Cafeapp:
         self.clear()
         self.menu = self.load_menu()
         tk.Label(self.win, text="Cafe Menu", font=("Arial", 15)).pack(pady=10)
-    
+
         self.lst = tk.Listbox(self.win, width=40, height=10)
         for cai,value in self.menu.items():
             self.lst.insert(tk.END, f"{cai}: ${value:.2f}")
@@ -86,6 +93,10 @@ class Cafeapp:
                   command=self.checkout).grid(row=0, column=1, padx=8)
         tk.Button(self.win, text = "Logout",
                   command=self.welcome_ui).pack(pady=10)
+        tk.Button(self.win, text="Exit", width=12,
+                    command=self.win.quit).pack(pady=10)
+        self.win.update_idletasks()
+        
         
     def add_to_order(self):
         sel = self.lst.curselection()
@@ -110,6 +121,7 @@ class Cafeapp:
                        menu[mingzi2] = float(price)
         print("DEBUG menu dict ->", menu) 
         return menu
+    
 
 # Login 
     def login_ui(self):
@@ -127,6 +139,8 @@ class Cafeapp:
           command=self.do_login).pack(side="left", padx=6)
         tk.Button(box, text="Back", width=10,
           command=self.welcome_ui).pack(side="left", padx=6)
+        self.win.update_idletasks()
+        
 
 
     def do_login(self):
@@ -157,6 +171,8 @@ class Cafeapp:
                  command=self.do_register).grid(row=0, column=0, padx=8)
        tk.Button(f, text="Back", width=12,
                  command=self.welcome_ui).grid(row=0, column=1, padx=8)
+       self.win.update_idletasks()
+       
        
     def do_register(self):
         mingzi = self.ent_user.get().strip()
@@ -181,11 +197,11 @@ class Cafeapp:
             messagebox.showwarning("No Order", "Your order is empty")
             return
         total = sum(price*qty for _, price, qty in self.order)
-        items = "\n".join(f"{items} * {price} = ${price*qty:.2f}" for items, price, qty in self.order)
+        items = "\n".join(f"{items} * {qty} = ${price*qty:.2f}" for items, price, qty in self.order)
         order_no = random.randint(100000, 999999)
         messagebox.showinfo("Order Confirmation",
                         f"{items}\n———\nTotal:${total:.2f}\nOrder Number: {order_no}")
-        print("Thank you for your order! See you next time\n")
+        messagebox.showinfo("Thank you","Thank you for your order!    See you next time!")
         self.order.clear()
         self.welcome_ui()
         
