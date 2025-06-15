@@ -135,9 +135,9 @@ class Cafeapp:
         self.ent_psw.pack()
         box = tk.Frame(self.win)
         box.pack(pady=10)
-        tk.Button(box, text="Login", width=10,
+        tk.Button(box, text="Login", width=10, font=("Arial", 15),
           command=self.do_login).pack(side="left", padx=6)
-        tk.Button(box, text="Back", width=10,
+        tk.Button(box, text="Back", width=10, font=("Arial", 15),
           command=self.welcome_ui).pack(side="left", padx=6)
         self.win.update_idletasks()
         
@@ -167,9 +167,9 @@ class Cafeapp:
        f = tk.Frame(self.win); f.pack(pady=15)
        bottns = tk.Frame(self.win)
        bottns.pack(pady=10)
-       tk.Button(f, text="Register", width=12,
+       tk.Button(f, text="Register", width=12,font=("Arial", 15),
                  command=self.do_register).grid(row=0, column=0, padx=8)
-       tk.Button(f, text="Back", width=12,
+       tk.Button(f, text="Back", width=12,font=("Arial", 15),
                  command=self.welcome_ui).grid(row=0, column=1, padx=8)
        self.win.update_idletasks()
        
@@ -177,8 +177,20 @@ class Cafeapp:
     def do_register(self):
         mingzi = self.ent_user.get().strip()
         psw = self.ent_psw.get().strip()
-        if not mingzi or mingzi in self.users:
-            messagebox.showerror("Error", "Username exists or empty")
+        if mingzi in self.users:
+            messagebox.showerror("Error", "Username exists")
+            return
+        if not mingzi:
+            messagebox.showerror("Error", "Username cannot be empty")
+            return
+        if not psw:
+            messagebox.showerror("Error", "Password cannot be empty")
+            return
+        if not mingzi.isalnum():
+            messagebox.showerror("Error", "Username must only letters and numbers")
+            return
+        if len(mingzi) > 20:
+            messagebox.showerror("Error", "Username must be less than 20 characters")
             return
         if len(psw) < 6:
             messagebox.showerror("Error", "Password must be at least 6 characters")

@@ -1,7 +1,9 @@
 Coffee,2.50
 Hot Chocolate,2.0
 Sandwich,4.50
-Hamburger,6.0
+Chicken burger,6.0
+Beef burger,6.0
+Salad,4.50
 Hot dog,4.0
 Water,1.50
 
